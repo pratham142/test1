@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "945477544618",
+    "firebase_url": "https://mychatapp-d24d9-default-rtdb.firebaseio.com",
+    "project_id": "mychatapp-d24d9",
+    "storage_bucket": "mychatapp-d24d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945477544618:android:47bbe558fce6d6e7d97ed3",
+        "android_client_info": {
+          "package_name": "com.example.test1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945477544618-fsd34h1pfd5lebp1fedmes3blslkbqve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAznk369a9V65j9T3y5UKVTe1k5a7DwsNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945477544618-fsd34h1pfd5lebp1fedmes3blslkbqve.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "945477544618-pmafc44h0ca0hi94c65qe8163gqlas18.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zobiwebsolutions.chatApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
