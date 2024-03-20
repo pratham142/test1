@@ -88,8 +88,10 @@ class _PasswordvalidationtextfieldState
 class defaulttextfield extends StatefulWidget {
   TextEditingController controller;
   String text;
+  String? hintText = '';
 
-  defaulttextfield({super.key, required this.controller, required this.text});
+  defaulttextfield(
+      {super.key, required this.controller, required this.text, this.hintText});
 
   @override
   State<defaulttextfield> createState() => _defaulttextfieldState();
@@ -104,6 +106,7 @@ class _defaulttextfieldState extends State<defaulttextfield> {
         controller: widget.controller,
         decoration: InputDecoration(
             label: Text(widget.text),
+            hintText: widget.hintText,
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
       ),

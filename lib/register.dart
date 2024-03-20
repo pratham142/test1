@@ -14,37 +14,33 @@ class RegisterView extends GetView<RegisterController> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.app_registration,
-                size: 250,
-              ),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: defaulttextfield(
-                    controller: controller.name,
-                    text: 'Name',
-                  )),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Emailvalidationtextfield(
-                      emailController: controller.email)),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Passwordvalidationtextfield(
-                      passwordController: controller.password)),
-              SizedBox(height: 25),
-              ElevatedButton(
-                onPressed: () {
-                  controller.registerUser();
-                  Navigator.pop(context);
-                },
-                child: Text('Register'),
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.app_registration,
+                  size: 250,
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Emailvalidationtextfield(
+                        emailController: controller.email)),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Passwordvalidationtextfield(
+                        passwordController: controller.password)),
+                SizedBox(height: 25),
+                ElevatedButton(
+                  onPressed: () {
+                    controller.registerUser();
+                    Navigator.pop(context);
+                  },
+                  child: Text('Register'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -52,50 +52,52 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.lock,
-                size: 200,
-              ),
-              SizedBox(height: 100),
-              SizedBox(
-                height: 100,
-                child:
-                    Emailvalidationtextfield(emailController: emailController),
-              ),
-              SizedBox(height: 15),
-              Passwordvalidationtextfield(
-                  passwordController: passwordController),
-              SizedBox(height: 5),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterView()),
-                  );
-                },
-                child: Text('Register Now'),
-              ),
-              SizedBox(height: 25),
-              GestureDetector(
-                onTap: () {
-                  if (isEmailValid) {
-                    signIn();
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.amber,
-                  ),
-                  height: 50,
-                  width: 150,
-                  child: Center(child: Text('Login')),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.lock,
+                  size: 200,
                 ),
-              ),
-            ],
+                SizedBox(height: 100),
+                SizedBox(
+                  height: 100,
+                  child: Emailvalidationtextfield(
+                      emailController: emailController),
+                ),
+                SizedBox(height: 15),
+                Passwordvalidationtextfield(
+                    passwordController: passwordController),
+                SizedBox(height: 5),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterView()),
+                    );
+                  },
+                  child: Text('Register Now'),
+                ),
+                SizedBox(height: 25),
+                GestureDetector(
+                  onTap: () {
+                    if (isEmailValid) {
+                      signIn();
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.amber,
+                    ),
+                    height: 50,
+                    width: 150,
+                    child: Center(child: Text('Login')),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

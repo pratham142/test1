@@ -14,63 +14,73 @@ class Profilescreen extends GetView<ProfileController> {
     String? text;
     String textFormat = 'yyyy-MM-dd';
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Profile'),
-        ),
-        body: Padding(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.height * 0.11,
-                  backgroundColor: const Color.fromARGB(255, 230, 150, 150),
-                  child: Stack(
-                    children: [
-                      Icon(
-                        Icons.person_2_rounded,
-                        size: 150,
-                      ),
-                      Positioned(
-                        top: MediaQuery.of(context).size.height * 0.13,
-                        left: MediaQuery.of(context).size.height * 0.11,
-                        child: CircleAvatar(
-                          child: IconButton(
-                            onPressed: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (context) {
-                                  return SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 200,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        TextButton(
-                                          onPressed: () {},
-                                          child: Text('Open Camera'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            controller.pickImage();
-                                          },
-                                          child: Text('Open gallery'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            icon: Icon(Icons.edit),
+              Obx(
+                () => Center(
+                  child: CircleAvatar(
+                    radius: MediaQuery.of(context).size.height * 0.11,
+                    backgroundColor: const Color.fromARGB(255, 230, 150, 150),
+                    child: Stack(
+                      children: [
+                        if (controller.selectedImage.value != null)
+                          ClipOval(
+                            child: Image.file(
+                              controller.selectedImage.value!,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: IconButton(
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                  context: context,
+                                  builder: (context) {
+                                    return SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 200,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.openCamera();
+                                            },
+                                            child: Text('Open Camera'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.pickImage();
+                                            },
+                                            child: Text('Open gallery'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: Icon(Icons.edit),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -79,32 +89,44 @@ class Profilescreen extends GetView<ProfileController> {
               ),
               defaulttextfield(
                 controller: controller.nameController,
-                text: 'name',
-              ),
-              defaulttextfield(
-                controller: controller.emailController,
-                text: FirebaseAuth.instance.currentUser!.email.toString(),
+                text: 'Name',
+                hintText: controller.username,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  enabled: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    labelText: FirebaseAuth.instance.currentUser?.email ?? '',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: controller.datecontroller,
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1950),
-                        //DateTime.now() - not to allow to choose before today.
-                        lastDate: DateTime(2100));
+                      context: context,
+                      initialDate: controller.datecontroller.text.isNotEmpty
+                          ? DateFormat(textFormat)
+                              .parse(controller.datecontroller.text)
+                          : DateTime.now(),
+                      firstDate: DateTime(1950),
+                      lastDate: DateTime(2100),
+                    );
 
                     if (pickedDate != null) {
-                      print(pickedDate);
                       String formattedDate =
                           DateFormat(textFormat).format(pickedDate);
-                      print(formattedDate);
-
-                      text = formattedDate;
-                    } else {}
+                      controller.datecontroller.text = formattedDate;
+                    }
                   },
+                  readOnly:
+                      true, // Make the text field readonly to prevent manual input
                   decoration: InputDecoration(
                     labelText: 'Date Of Birth',
                     border: OutlineInputBorder(
@@ -116,6 +138,7 @@ class Profilescreen extends GetView<ProfileController> {
               defaulttextfield(
                 controller: controller.bioController,
                 text: 'Bio',
+                hintText: controller.bio,
               ),
               SizedBox(
                 height: 25,
@@ -123,10 +146,11 @@ class Profilescreen extends GetView<ProfileController> {
               GestureDetector(
                 onTap: () {
                   controller.saveProfile();
+                  Navigator.pop(context);
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.050,
-                  width: MediaQuery.of(context).size.height * 0.3,
+                  height: 50,
+                  width: MediaQuery.of(context).size.width * 0.3,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.orange,
